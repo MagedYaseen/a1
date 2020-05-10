@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
+
 import { StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
 // import firebase from '../../database/firebase';
 
 // import axios from 'react-native-axios';
 import {registerUser} from '../../api/api';
 
-export default class SecreenSignup extends Component {
+export default ScreenSignup = ( props ) =>  {
   
-  constructor() {
-    super();
-    this.state = { 
-      displayName: '',
-      email: '', 
-      password: '',
-      repeat: '',
-      isLoading: false
-    }
+  const [displayName, setDisplayName] = useState("mail@default.com");
+  const [email, setEmail] = useState("mail@default.com");
+  const [password, setPassword] = useState("password");
+  const [repeat, setRepeat] = useState("repeat");
+
+
+  reg_loginstate = () => {
+    props.loginstate();
   }
 
   updateInputVal = (val, prop) => {
@@ -24,7 +24,7 @@ export default class SecreenSignup extends Component {
     this.setState(state);
   }
 
-  registerUser = () => {
+  register_user = () => {
     const state = this.state;
 
     const values = Object.values(state);
@@ -100,58 +100,58 @@ export default class SecreenSignup extends Component {
     }
   }
 
-  render() {
-    if ( this.state.isLoading ) {
-      return (
-        <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E"/>
-        </View>
-      )
-    }    
+    // if ( this.state.isLoading ) {
+    //   return (
+    //     <View style={styles.preloader}>
+    //       <ActivityIndicator size="large" color="#9E9E9E"/>
+    //     </View>
+    //   )
+    // }    
     return (
       <View style={styles.container}>  
+        <Text>{props.test}</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="Name"
-          value={this.state.displayName}
-          onChangeText={(val) => this.updateInputVal(val, 'displayName')}
+          value={displayName}
+          onChangeText={(val) => updateInputVal(val, 'displayName')}
         />      
         <TextInput
           style={styles.inputStyle}
           placeholder="Email"
-          value={this.state.email}
-          onChangeText={(val) => this.updateInputVal(val, 'email')}
+          value={email}
+          onChangeText={(val) => updateInputVal(val, 'email')}
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="Password"
-          value={this.state.password}
-          onChangeText={(val) => this.updateInputVal(val, 'password')}
+          value={password}
+          onChangeText={(val) => updateInputVal(val, 'password')}
           maxLength={15}
           secureTextEntry={true}
         />   
         <TextInput
           style={styles.inputStyle}
           placeholder="Repeat Password"
-          value={this.state.repeat}
-          onChangeText={(val) => this.updateInputVal(val, 'repeat')}
+          value={repeat}
+          onChangeText={(val) => updateInputVal(val, 'repeat')}
           maxLength={15}
           secureTextEntry={true}
         />   
         <Button
           color="#3740FE"
           title="Signup"
-          onPress={() => this.registerUser()}
+          onPress={() => register_user()}
         />
 
         <Text 
           style={styles.loginText}
-          onPress={() => this.props.regstate}>
+          onPress={() => reg_loginstate()}>
           Already registered? Click here to login
         </Text>                          
       </View>
     );
-  }
+  
 }
 
 const styles = StyleSheet.create({

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
-import { AsyncStorage, StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator } from 'react-native';
-import SecreenSignup from './SecreenSignup';
+import React, { useState } from 'react';
+import { AsyncStorage, StyleSheet, Text, View, TextInput, Button, Alert, ActivityIndicator  } from 'react-native';
+import SecreenSignup from './ScreenSignup';
 import { login } from '../../api/api';
 import Toast from 'react-native-simple-toast';
 
@@ -25,36 +25,43 @@ import ScreenDashboard from './ScreenDashboard';
 
 export default ScreenSignin = (props) => {
 
-  InputVal = (val, prop) => {
+  const [email, setEmail] = useState("mail@default.com");
+  const [password, setPassword] = useState("password");
+
+  login_regstate = () => {
+    props.regstate();
+  }
+
+  updateInputVal = (val, prop) => {
     // const state = state;
     // state[prop] = val;
     // setState(state);
   }
 
-  // userLogin = () => {
-  //   if(state.email === '' && state.password === '') {
-  //     Alert.alert('Enter details to signin!')
-  //   } else {
-  //     setState({
-  //       isLoading: true,
-  //     })
-  //     firebase
-  //     .auth()
-  //     .signInWithEmailAndPassword(state.email, state.password)
-  //     .then((res) => {
-  //       console.log(res)
-  //       console.log('User logged-in successfully!')
-  //       setState({
-  //         isLoading: false,
-  //         email: '', 
-  //         password: ''
-  //       })
-  //       setAsyncStorage();
-  //       // props.navigation.navigate('Dashboard')
-  //     })
-  //     .catch(error => setState({ errorMessage: error.message }))
-  //   }
-  // }
+  userLogin = () => {
+    if(state.email === '' && state.password === '') {
+      Alert.alert('Enter details to signin!')
+    } else {
+      setState({
+        isLoading: true,
+      })
+      firebase
+      .auth()
+      .signInWithEmailAndPassword(state.email, state.password)
+      .then((res) => {
+        console.log(res)
+        console.log('User logged-in successfully!')
+        setState({
+          isLoading: false,
+          email: '', 
+          password: ''
+        })
+        setAsyncStorage();
+        // props.navigation.navigate('Dashboard')
+      })
+      .catch(error => setState({ errorMessage: error.message }))
+    }
+  }
 
 
 
@@ -64,13 +71,13 @@ export default ScreenSignin = (props) => {
         <TextInput
           style={styles.inputStyle}
           placeholder="Email"
-          // value={state.email}
+          value={email}
           onChangeText={(val) => updateInputVal(val, 'email')}
         />
         <TextInput
           style={styles.inputStyle}
           placeholder="Password"
-          // value={state.password}
+          value={password}
           onChangeText={(val) => updateInputVal(val, 'password')}
           maxLength={15}
           secureTextEntry={true}
@@ -83,7 +90,7 @@ export default ScreenSignin = (props) => {
 
         <Button
           style={styles.loginText}
-          onPress={()=>props.loginstate}
+          onPress={ () => login_regstate() }
           title="Don't have account? Click here to signup"
             >
         </Button>

@@ -1,14 +1,12 @@
-// You can import Ionicons from @expo/vector-icons if you use Expo or
-// react-native-vector-icons/Ionicons otherwise.
 import * as React from "react";
 import {Component} from "react";
-import {AsyncStorage, StyleSheet, View, Text, Button} from 'react-native';
+import {AsyncStorage, StyleSheet, View, Text, Button, Alert} from 'react-native';
 
 import { NavigationContainer } from "@react-navigation/native";
 import MainBottomTabs from './Tabs/MainBottomTabs';
 
-import ScreenSignin from './Screens/Auth/ScreenSignin'
-import SecreenSignup from './Screens/Auth/SecreenSignup'
+import ScreenSignin from './Screens/Auth/ScreenSignin';
+import ScreenSignup from './Screens/Auth/ScreenSignup';
 
    
 export default class App extends Component {
@@ -27,8 +25,8 @@ export default class App extends Component {
 
 async componentDidMount() {
   console.log('componentDidMount');
-  if (!this._unmounted) {
-  }
+    if (!this._unmounted) {
+    }
   }
 
 
@@ -46,38 +44,33 @@ async componentDidMount() {
   }
   
   regstate = () => {
-    this.setState({
-      login: false,
-      register: true,
-      test: 'Register'
-    })
-  }
+      this.setState({
+          login: false,
+          register: true,
+          test: 'Register'
+        })
+    }
+                              render () {
 
-  render () {
 
     return(
-      // <View style={styles.container}>
-      //   <Text>{this.state.test}</Text>
-      //   <Text>{this.state.test}</Text>
-      //   <Button title='Click' onPress={this.regstate}></Button>
-      // </View>
-
+     
       <View style={styles.container}>
-        <ScreenSignin test={this.state.test} loginstate={this.regstate} />
+          {
+              (this.state.login) ? (
+                //   <View>
+                //   <Text>Login</Text>
+                //       </View>
+                    <ScreenSignin test={this.state.test} regstate={this.regstate} />
+                  ) : (
+                    //   <View>
+                    // <Text>Reg</Text>
+                    //   </View>
+                  <ScreenSignup test={this.state.test} loginstate={this.loginstate}  />
+              )
+          }
       </View>
-          //  <NavigationContainer>
-          //    {
-          //      ( this.state.loggedin && this.state.user  ) ?
-          //      (
-          //        <MainBottomTabs /> 
-          //      )
-          //      : 
-          //      (
-          //        (this.state.login == true) ? (<ScreenSignin test={this.state.test} loginstate={this.regstate} />) : (<SecreenSignup regstate={this.loginstate} />)
-          //      )
-          //     }   
-          //   </NavigationContainer>
-    );
+      );
     }
 
 
