@@ -29,8 +29,8 @@ export const registerUser = async ( ejo_data ) => {
 }
 
 export const login = async ( ejo_data ) => {
-
    const {data} = await axios.post( url, { ejo_data } );
+   console.log(data);
     return data;
 }
 

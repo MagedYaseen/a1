@@ -14,8 +14,8 @@ export default ScreenSignup = ( props ) =>  {
   const [repeat, setRepeat] = useState("repeat");
 
 
-  reg_loginstate = () => {
-    props.loginstate();
+  go_login = () => {
+    props.login_reg();
   }
 
   updateInputVal = (val, prop) => {
@@ -109,7 +109,6 @@ export default ScreenSignup = ( props ) =>  {
     // }    
     return (
       <View style={styles.container}>  
-        <Text>{props.test}</Text>
         <TextInput
           style={styles.inputStyle}
           placeholder="Name"
@@ -145,8 +144,8 @@ export default ScreenSignup = ( props ) =>  {
         />
 
         <Text 
-          style={styles.loginText}
-          onPress={() => reg_loginstate()}>
+          style={styles.switcher}
+          onPress={() => go_login()}>
           Already registered? Click here to login
         </Text>                          
       </View>
@@ -171,9 +170,10 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderBottomWidth: 1
   },
-  loginText: {
+  switcher: {
     color: '#3740FE',
     marginTop: 25,
+    paddingVertical: 15,
     textAlign: 'center'
   },
   preloader: {

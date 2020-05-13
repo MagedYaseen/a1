@@ -22,6 +22,7 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-36.0.0.tar.gz",
     "react-native-axios": "^0.17.1",
     "react-native-gesture-handler": "~1.5.0",
+    "react-native-hyperlink": "0.0.19",
     "react-native-my-sql-connection": "^1.0.4",
     "react-native-push-notification": "^3.3.1",
     "react-native-reanimated": "~1.4.0",

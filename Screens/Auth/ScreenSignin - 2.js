@@ -6,12 +6,12 @@ import Toast from 'react-native-simple-toast';
 
 // import { reload } from 'expo/build/Updates/Updates';
 // import firebase from '../../database/firebase';
-// import RNRestart from 'react-native-restart';
-// import { CommonActions } from '@react-navigation/native';
-// import { StackActions, NavigationActions } from 'react-navigation';
 import StackHome from '../../Stacks/StackHome';
 import ScreenHome from '../Home/ScreenHome';
+// import RNRestart from 'react-native-restart';
 import { reload } from 'expo/build/Updates/Updates';
+// import { CommonActions } from '@react-navigation/native';
+// import { StackActions, NavigationActions } from 'react-navigation';
 import { NavigationContainer } from "@react-navigation/native";
 import MainBottomTabs from '../../Tabs/MainBottomTabs';
 import { NavigationActions } from '@react-navigation/native'
@@ -25,14 +25,13 @@ import ScreenDashboard from './ScreenDashboard';
 
 export default ScreenSignin = (props) => {
 
-  const [email, setEmail] = useState("magedyaseen@gmail.com");
-  const [password, setPassword] = useState("Maged@2020");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
-  const errMsgTitle = 'Invalid Login Data';
+  const title = 'Invalid Login Data';
 
   go_register = () => {
-    
     props.login_reg();
   }
 
@@ -42,59 +41,42 @@ export default ScreenSignin = (props) => {
     // setState(state);
   }
 
-  userLogin = () => { 
+  userLogin = () => {
     if (email === '' || password === '') {
-      Alert.alert(errMsgTitle, 'Email and Password are required to sign in!')
-    return;
-    }
-
-    if (!(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email)) {
-      Alert.alert(errMsgTitle, 'Email is not valid!!!!');
-      return;
-    }
-
-
-    if (!(/[a-zA-Z0-9`~!@#$%^&*()-_=+,.<>/?]{6,}$/g).test(password)) {
-      Alert.alert(errMsgTitle, 'Check that you entered a valid password!');
-      return;
-    }
+      Alert.alert(title, 'Email and Password are required to sign in!')
+    } else {
       setIsLoading(true);
-
-      let login_data = {};
-      
-      login_data['email'] = email;
-      login_data['password'] = password;
-      login_data['ejocrud'] = 'loginuser';
-
-      // console.log(login_data);return;
-      login(login_data).then( ( res ) => {
-        if ( res.success ) {
-          // AsyncStorage.removeItem('loggedin');
-          AsyncStorage.setItem('loggedin', 'true');
-          props.verified_user(res.id);
-        } 
-        Toast.showWithGravity(res.msg, Toast.LONG, Toast.TOP);
-        setIsLoading(false);
-      });
-
-
-      // setTimeout(()=>{}, 2000)
 return;
-      
-    
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(state.email, state.password)
+        .then((res) => {
+          console.log(res)
+          console.log('User logged-in successfully!')
+          setState({
+            isLoading: false,
+            email: '',
+            password: ''
+          })
+          setAsyncStorage();
+          // props.navigation.navigate('Dashboard')
+        })
+        .catch(error => setState({ errorMessage: error.message }))
+    }
   }
 
- if ( isLoading ) {
-      return (
-        <View style={styles.preloader}>
-          <ActivityIndicator size="large" color="#9E9E9E"/>
-        </View>
-      )
-    }
-           
+
 
   return (
     <View style={styles.container}>
+      {
+        (isLoading) ?
+          (
+            <View style={styles.preloader}>
+                 <ActivityIndicator size="large" color="#9E9E9E"/>
+            </View>
+          ) :
+          (
             <View>
               <TextInput
                 style={styles.inputStyle}
@@ -117,12 +99,14 @@ return;
               />
 
               <Text
-                style={styles.switcher}
+                style={styles.loginText}
                 onPress={() => go_register()}>
                 Don't have account? Click here to signup
         </Text>
 
             </View>
+          )
+      }
     </View>
   );
 }
@@ -144,11 +128,10 @@ const styles = StyleSheet.create({
     borderColor: "#ccc",
     borderBottomWidth: 1
   },
-  switcher: {
+  loginText: {
     color: '#3740FE',
     marginTop: 25,
-    textAlign: 'center',
-    paddingVertical: 15
+    textAlign: 'center'
   },
   preloader: {
     left: 0,
